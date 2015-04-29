@@ -1,0 +1,65 @@
+# AT_TEST_HEADER
+# ----------------
+# The header for all C test code.
+m4_define([AT_TEST_HEADER],
+[[#include <config.h>
+#include <stdlib.h>
+]])
+
+# AT_TEST_MAIN(CONTENT)
+# ---------------------
+# Wraps a standard main function around CONTENT.
+m4_define([AT_TEST_MAIN],
+[[int main(int argc, char *argv[]) {$1}
+]])
+
+# AT_TEST(FILE, CONTENT)
+# ----------------------
+# Run a basic test on a single C source file.
+m4_define([AT_TEST],
+[m4_pushdef([FILE], m4_bpatsubst([$1], [/*$]))
+AT_DATA([FILE.c],
+[AT_TEST_HEADER
+$2
+])
+AT_DATA([Makefile],
+[[LTCC = $(LIBTOOL) --tag=CC --mode=compile \
+       $(CC) $(CPPFLAGS) $(CFLAGS)
+LTLD = $(LIBTOOL) --tag=CC --mode=link \
+       $(CC) $(CFLAGS) $(LDFLAGS)
+TARGET = ]FILE[
+TARGET_CMD = $(LTLD) -o $(TARGET) $< $(LIBS)
+FILE_CMD = $(LTCC) -c -o $][@ $<
+
+all: $(TARGET)
+
+$(TARGET): ]FILE[.lo
+	@echo " $(TARGET_CMD)"; \
+	$(TARGET_CMD)
+
+]FILE[.lo: ]FILE[.c
+	@echo " $(FILE_CMD)"; \
+	$(FILE_CMD)
+]])
+AT_CHECK(
+[make \
+LIBTOOL="$LIBTOOL" \
+CC="$CC" \
+CPPFLAGS="$CPPFLAGS" \
+CFLAGS="$CFLAGS" \
+LDFLAGS="$LDFLAGS" \
+LIBS="$LIBS"
+], [0], [ignore], [ignore])
+AT_CHECK([./FILE], [0], [ignore], [ignore])
+m4_popdef([FILE])
+])
+
+## ------------- ##
+## Run the tests ##
+## ------------- ##
+
+AT_COPYRIGHT([Copyright (C) 2015 Jaguar Land Rover Automotive PLC.])
+AT_COLOR_TESTS
+AT_INIT
+
+m4_include([library.at])

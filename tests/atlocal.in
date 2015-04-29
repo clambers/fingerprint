@@ -1,0 +1,6 @@
+: ${CC='@CC@'}
+LIBTOOL="$abs_top_builddir/libtool"
+CPPFLAGS="-I$abs_top_builddir -I$abs_top_srcdir/lib"
+CFLAGS=
+LDFLAGS=
+LIBS="$abs_top_builddir/lib/libfingerprint.la"

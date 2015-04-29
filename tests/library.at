@@ -1,0 +1,7 @@
+AT_BANNER([Library testing.])
+
+AT_SETUP([Basic])
+AT_TEST([basic], AT_TEST_MAIN([
+  return EXIT_SUCCESS;
+]))
+AT_CLEANUP
