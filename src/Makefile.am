@@ -1,9 +1,6 @@
 ZFLAGS = -ur
 XLFLAGS = --dropdtd --noent
 
-TYPE = wgt
-EXT = .$(TYPE)
-
 SOURCES = \
 	$(srcdir)/index.html \
 	$(srcdir)/icon.png \
@@ -12,7 +9,7 @@ SOURCES = \
 	$(srcdir)/images \
 	$(srcdir)/DNA_common
 CONFIG = config.xml
-TARGET = $(PACKAGE_NAME)$(EXT)
+TARGET = $(PACKAGE_NAME).wgt
 
 EXTRA_DIST = $(CONFIG) $(SOURCES)
 CLEANFILES = $(TARGET)
@@ -22,7 +19,7 @@ ZFLAGS_V = $(ZFLAGS_V_@AM_V@)
 ZFLAGS_V_ = $(ZFLAGS) -q
 ZFLAGS_V_0 = $(ZFLAGS)
 
-wgtdir = $(datadir)/$(TYPE)
+wgtdir = $(datadir)/wgt
 wgt_DATA = $(TARGET)
 
 $(TARGET): $(CONFIG) $(SOURCES)
