@@ -2,7 +2,6 @@
 %define extdir %{_libdir}/tizen-extensions-crosswalk/
 %define pcdir %{_datadir}/pkgconfig/
 %define wgtdir %{_datadir}/wgt/
-%define wgt %{wgtdir}%{name}.wgt
 %define debug_package %{nil}
 
 Name:           fingerprint
@@ -51,4 +50,4 @@ pkgcmd -u -n %{id_hash} -q > /dev/null
 %doc README.md NEWS.md
 %{extdir}lib%{name}.so*
 %{pcdir}%{name}.pc
-%{wgt}
+%{wgtdir}Fingerprint.wgt
