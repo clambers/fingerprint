@@ -1,4 +1,4 @@
-%define %{id_hash} BMQA0bTQCY
+%define id_hash BMQA0bTQCY
 %define extdir %{_libdir}/tizen-extensions-crosswalk/
 %define pcdir %{_datadir}/pkgconfig/
 %define wgtdir %{_datadir}/wgt/
@@ -24,11 +24,11 @@ BuildRequires:  libxml2-tools
 This is a Crosswalk web application for fingerprint analysis, and an extension
 for said app providing access to the libfprint library.
 
-%setup
+%prep
 %autosetup
 
 %build
-%autogen %{name} %{version} %{id_hash}
+./autogen.sh %{name} %{version} %{id_hash}
 %configure
 make %{?_smp_mflags}
 

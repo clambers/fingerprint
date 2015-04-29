@@ -1,8 +1,14 @@
 #!/bin/sh
 
-NAME=${1:-unknown}
-VERSION=${2:-0.0}
-ID_HASH=${3:-0000000000}
+while getopts "h" flag; do
+  case "$flag" in
+    h) echo "Usage: $(basename $0) NAME VERSION HASH";;
+  esac
+done
+
+NAME=${@:$OPTIND:1}
+VERSION=${@:$OPTIND+1:1}
+ID_HASH=${@:$OPTIND+2:1}
 
 AUTORECONF=`which autoreconf`
 COMMONDIR=/opt/usr/apps/common-apps
