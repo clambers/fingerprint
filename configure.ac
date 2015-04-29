@@ -1,15 +1,18 @@
 AC_PREREQ([2.69])
-AC_INIT([${NAME^}], [$VERSION],
-[https://github.com/PDXostc/$NAME/issues], [],
-[https://github.com/PDXostc/$NAME])
-AC_CONFIG_SRCDIR([lib/$NAME.c])
+
+AX_IMPORT
+
+AC_INIT(AX_PACKAGE_NAME, AX_PACKAGE_VERSION,
+[https://github.com/PDXostc/fingerprint/issues], [],
+[https://github.com/PDXostc/fingerprint])
+AC_CONFIG_SRCDIR([lib/fingerprint.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.14 foreign -Wall -Werror -Wno-portability])
 AM_SILENT_RULES([yes])
 
-AC_SUBST([ID_HASH], [$ID_HASH])
+AC_SUBST([PACKAGE_HASH], AX_PACKAGE_HASH)
 
 AM_PROG_AR
 LT_INIT
@@ -24,7 +27,7 @@ AC_CHECK_PROGS([ZIP], [zip])
 
 AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile $NAME.pc lib/Makefile src/Makefile tests/Makefile
-src/$NAME.xml tests/package.m4 tests/atlocal])
+AC_CONFIG_FILES([Makefile fingerprint.pc lib/Makefile src/Makefile
+tests/Makefile src/fingerprint.xml tests/package.m4 tests/atlocal])
 
 AC_OUTPUT

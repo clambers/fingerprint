@@ -25,5 +25,5 @@ wgt_DATA = $(TARGET)
 $(TARGET): $(CONFIG) $(SOURCES)
 	$(AM_V_GEN) $(ZIP) $(ZFLAGS_V) $@ $(CONFIG) $(SOURCES)
 
-$(CONFIG): $(top_srcdir)/configure.ac.in $(PACKAGE).xml.in
+$(CONFIG): $(top_srcdir)/configure.ac $(PACKAGE).xml.in
 	$(AM_V_GEN) $(XML_LINT) $(XLFLAGS) $(PACKAGE).xml > $@

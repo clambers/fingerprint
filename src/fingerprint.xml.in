@@ -3,7 +3,7 @@
 <!ENTITY name "@PACKAGE_NAME@">
 <!ENTITY version "@VERSION@">
 <!ENTITY url "@PACKAGE_URL@">
-<!ENTITY rand "@ID_HASH@">
+<!ENTITY rand "@PACKAGE_HASH@">
 ]>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="&url;" version="&version;" viewmodes="fullscreen">
   <tizen:application id="&rand;.&name;" package="&rand;" required_version="2.2" />

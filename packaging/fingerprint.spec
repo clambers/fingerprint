@@ -39,15 +39,16 @@ make %{?_smp_mflags} check
 
 %post
 /sbin/ldconfig
-pkgcmd -i -t wgt -p %{wgt} -q > /dev/null
+pkgcmd -i -t wgt -p %{wgtdir}Fingerprint.wgt -q > /dev/null
 
-%postun
-/sbin/ldconfig
+%preun
 pkgcmd -u -n %{id_hash} -q > /dev/null
+
+%postun -p /sbin/ldconfig
 
 %files
 %license LICENSE
 %doc README.md NEWS.md
-%{extdir}lib%{name}.so*
-%{pcdir}%{name}.pc
+%{extdir}libfingerprint.so*
+%{pcdir}fingerprint.pc
 %{wgtdir}Fingerprint.wgt
