@@ -1,4 +1,4 @@
-%define id_hash BMQA0bTQCY
+%define hash BMQA0bTQCY
 %define extdir %{_libdir}/tizen-extensions-crosswalk/
 %define pcdir %{_datadir}/pkgconfig/
 %define wgtdir %{_datadir}/wgt/
@@ -28,7 +28,7 @@ for said app providing access to the libfprint library.
 %autosetup
 
 %build
-./autogen.sh %{name} %{version} %{id_hash}
+./autogen.sh %name %version %hash
 %configure
 make %{?_smp_mflags}
 
@@ -43,7 +43,7 @@ make %{?_smp_mflags} check
 pkgcmd -i -t wgt -p %{wgtdir}Fingerprint.wgt -q > /dev/null
 
 %preun
-pkgcmd -u -n %{id_hash} -q > /dev/null
+pkgcmd -u -n %hash -q > /dev/null
 
 %postun -p /sbin/ldconfig
 

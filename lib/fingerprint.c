@@ -19,7 +19,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <dlog/dlog.h>
+#include <dlog.h>
 #include <jansson.h>
 #include <fprint.h>
 #include "XW_Extension.h"
@@ -38,10 +38,10 @@ static void instance_destroyed(XW_Instance instance) {
 }
 
 static void handle_message(XW_Instance instance, const char *msg) {
-  json_t *root, *id, *cmd, *res, *rel;
+  json_t *root, *id, *cmd, *res;
   json_error_t err;
-  const char *cmd_value, *rel_value;
-  char *root_value, *res_value, *path_value;
+  const char *cmd_value;
+  char *root_value, *res_value;
 
   SLOGI("received message");
 
@@ -73,7 +73,13 @@ static void handle_message(XW_Instance instance, const char *msg) {
 
   cmd_value = json_string_value(cmd);
 
-  if (strcmp(cmd_value, "get-version") == 0) {} else {
+  if (strcmp(cmd_value, "scan-finger") == 0) {
+    SLOGI("scanning finger");
+  } else if (strcmp(cmd_value, "verify-finger") == 0) {
+    SLOGI("verifying finger");
+  } else if (strcmp(cmd_value, "delete-finger") == 0) {
+    SLOGI("deleting finger");
+  } else {
     SLOGE("internal JS error: invalid cmd '%s'", cmd_value);
     goto done;
   }
