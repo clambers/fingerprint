@@ -366,34 +366,6 @@ function _verifyDuplicateUser(user) {
   }
   return duplicate;
 }
-var fingerPrintInit = function() {
-  console.log("FingerPrint Manager Loaded. Wait, doing fprint lib initialization..");
-
-  //Local storage
-  //Needs Work
-  if(localStorage.MasterFingerDB)
-  {
-    userMap = JSON.parse(localStorage.MasterFingerDB);
-    noOfUserProfiles = userMap.length;
-    console.log('The total no of User IDs presents are : ' + noOfUserProfiles);
-  }
-  else
-  {
-    console.log("No DB..!!");
-  }
-
-  function onsuccess(value) {
-    console.log("Init: Successful :)");
-  }
-  function onerror(e) {
-    console.log("Init: Failed :(");
-  }
-  console.log("Calling finger print web runtime lib for initializing...");
-  fingerprint.clientSync(JSON.stringify({ api: 'init' }), function(err) {
-      console.log('error: ' + err);
-  });
-};
-$(document).ready(fingerPrintInit);
 
 var user = {
   gender : 'M',

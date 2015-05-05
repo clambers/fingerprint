@@ -40,10 +40,10 @@ make %{?_smp_mflags} check
 
 %post
 /sbin/ldconfig
-pkgcmd -i -t wgt -p %{wgtdir}Fingerprint.wgt -q > /dev/null
+pkgcmd -i -t wgt -p %{wgtdir}Fingerprint.wgt -q
 
 %preun
-pkgcmd -u -n %hash -q > /dev/null
+pkgcmd -u -n %hash -q
 
 %postun -p /sbin/ldconfig
 
