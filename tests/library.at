@@ -1,4 +1,4 @@
-AT_BANNER([Library testing.])
+AT_BANNER([Native code.])
 
 AT_SETUP([Basic])
 AT_TEST([basic], AT_TEST_MAIN([

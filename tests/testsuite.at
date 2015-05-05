@@ -1,3 +1,6 @@
+AT_INIT
+AT_COLOR_TESTS
+
 # AT_TEST_HEADER
 # ----------------
 # The header for all C test code.
@@ -54,12 +57,9 @@ AT_CHECK([./FILE], [0], [ignore], [ignore])
 m4_popdef([FILE])
 ])
 
-## ------------- ##
-## Run the tests ##
-## ------------- ##
-
-AT_COPYRIGHT([Copyright (C) 2015 Jaguar Land Rover Automotive PLC.])
-AT_COLOR_TESTS
-AT_INIT
+## ----------------- ##
+## Include the tests ##
+## ----------------- ##
 
 m4_include([library.at])
+m4_include([javascript.at])

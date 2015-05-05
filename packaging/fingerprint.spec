@@ -7,7 +7,7 @@
 
 Name:           fingerprint
 Summary:        JLR Fingerprint web application
-Version:        0.1
+Version:        0.0.1
 Release:        0
 Group:          Applications/Web Applications
 License:        MPL-2.0
@@ -19,6 +19,7 @@ BuildRequires:  pkgconfig(libfprint)
 BuildRequires:  common-apps
 BuildRequires:  zip
 BuildRequires:  libxml2-tools
+BuildRequires:  nodejs
 
 %description
 This is a Crosswalk web application for fingerprint analysis, and an extension
@@ -30,13 +31,10 @@ for said app providing access to the libfprint library.
 %build
 ./autogen.sh %name %version %hash
 %configure
-make %{?_smp_mflags}
+make %{?_smp_mflags} check
 
 %install
 %make_install
-
-%check
-make %{?_smp_mflags} check
 
 %post
 /sbin/ldconfig

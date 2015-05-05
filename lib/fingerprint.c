@@ -96,7 +96,6 @@ static void handle_message(XW_Instance instance, const char *msg) {
   }
 
   json_object_set(res, "id", id);
-  json_object_set_new(res, "result", json_string("internal error"));
 
   cmd = json_object_get(root, "cmd");
   if (!json_is_string(cmd)) {
@@ -108,12 +107,21 @@ static void handle_message(XW_Instance instance, const char *msg) {
 
   if (strcmp(cmd_value, "scan-finger") == 0) {
     SLOGI("scanning finger");
+    json_object_set_new(res, "length", json_integer(1));
+    json_object_set_new(res, "0", json_null());
   } else if (strcmp(cmd_value, "verify-finger") == 0) {
     SLOGI("verifying finger");
+    json_object_set_new(res, "length", json_integer(2));
+    json_object_set_new(res, "0", json_null());
+    json_object_set_new(res, "1", json_boolean(1));
   } else if (strcmp(cmd_value, "delete-finger") == 0) {
     SLOGI("deleting finger");
+    json_object_set_new(res, "length", json_integer(1));
+    json_object_set_new(res, "0", json_null());
   } else {
     SLOGE("internal JS error: invalid cmd '%s'", cmd_value);
+    json_object_set_new(res, "length", json_integer(1));
+    json_object_set_new(res, "0", json_string("internal error"));
     goto done;
   }
 

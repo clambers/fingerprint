@@ -1,0 +1,70 @@
+AT_BANNER([JavaScript API.])
+
+AT_SETUP([Mocha script])
+AT_DATA([package.json],
+[[{
+  "name": "]AT_PACKAGE_TARNAME[",
+  "version": "]AT_PACKAGE_VERSION[",
+  "homepage": "]AT_PACKAGE_URL[",
+  "bugs": "]AT_PACKAGE_BUGREPORT[",
+  "license": "MPL-2.0",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.4",
+    "chai": "^2.3.0"
+  }
+}
+]])
+AT_DATA([inject.js],
+[[exports.stub = function() {
+  extension = {
+    listener: null,
+
+    setMessageListener: function(f) {
+      this.listener = f;
+    },
+
+    postMessage: function(msg) {
+      var json = JSON.parse(msg);
+      var resMsg = { id: json.id };
+
+      if (json.cmd === 'scan-finger') {
+        resMsg.length = 1;
+        resMsg['0'] = null;
+        var cb = this.listener.bind(null, JSON.stringify(resMsg));
+        setTimeout(cb, 0);
+      }
+    }
+  };
+
+  return extension;
+}
+]])
+AT_CHECK([mkdir -p test], [0], [ignore], [ignore])
+AT_DATA([[test/test.js]],
+[[var chai = require('chai');
+var inject = require('../inject');
+var fingerprint;
+
+describe(']AT_PACKAGE_TARNAME[', function() {
+  before(function() {
+    chai.should();
+    inject.stub();
+    fingerprint = require(]JSPATH[);
+  });
+
+  describe('scanFinger()', function() {
+    it('should scan without errors', function(done) {
+      fingerprint.scanFinger('Dutch', 'M', 'Thumb', function(err) {
+        if (err) throw err;
+        done();
+      });
+    });
+  });
+});
+]])
+AT_CHECK([npm install], [0], [ignore], [ignore])
+AT_CHECK([npm test], [0], [ignore], [ignore])
+AT_CLEANUP
