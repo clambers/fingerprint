@@ -138,6 +138,7 @@ function _createNewFingerprintCheck() {
   } else
     createNewFingerprint('state1');
 }
+
 function _recallExistingFingerprintCheck() {
   var totalUsers;
   totalUsers = userMap.length;
@@ -150,6 +151,7 @@ function _recallExistingFingerprintCheck() {
     setTimeout(_recallFingerprint, 2500);
   }
 }
+
 function _editExistingFingerprintCheck() {
   if (userMap.length > 0) {
     editExistingFingerprint('state1', userMap);
@@ -158,6 +160,7 @@ function _editExistingFingerprintCheck() {
     setTimeout(fingerprintOptions, 2500);
   }
 }
+
 function _addUser(name, gender) {
   var tempUserMap = {
     Name : name,
@@ -415,6 +418,7 @@ function addFingerprintConfirmationBox() {
   this.mainDiv.appendChild(this.divpopup);
   this.mainDiv.appendChild(this.divpopupback);
 }
+
 function fingerprintOptions() {
   this.mainDiv.innerHTML = "";
   this.divFingerprintOptions = document.createElement('div');
@@ -422,30 +426,39 @@ function fingerprintOptions() {
   this.divfingerprint_options = document.createElement('div');
   this.divfingerprint_options.id = "fingerprint_options";
   this.divfingerprint_options.innerText = "FINGERPRINT OPTIONS";
+
   this.divcreate_new = document.createElement('div');
   this.divcreate_new.id = "create_new";
   this.divcreate_new.innerText = "CREATE NEW";
+
   this.divedit_existing = document.createElement('div');
   this.divedit_existing.id = "edit_existing";
   this.divedit_existing.innerText = "EDIT EXISTING";
+
   this.divrecall_existing = document.createElement('div');
   this.divrecall_existing.id = "recall_existing";
   this.divrecall_existing.innerText = "RECALL EXISTING";
+
   this.divFingerprintOptions.appendChild(this.divfingerprint_options);
   this.divFingerprintOptions.appendChild(this.divcreate_new);
   this.divFingerprintOptions.appendChild(this.divedit_existing);
   this.divFingerprintOptions.appendChild(this.divrecall_existing);
+
   this.mainDiv.appendChild(this.divFingerprintOptions);
+
   this.divcreate_new.onclick = function() {
     _createNewFingerprintCheck();
   };
+
   this.divedit_existing.onclick = function() {
     _editExistingFingerprintCheck();
   };
+
   this.divrecall_existing.onclick = function() {
     _recallExistingFingerprintCheck();
   };
 }
+
 function createNewFingerprint(state, finger, userMap) {
   switch (state) {
   case 'state1':
@@ -473,15 +486,19 @@ function createNewFingerprint(state, finger, userMap) {
     this.divback.id = "fp_back";
     this.mainDiv.appendChild(this.divback);
     this.mainDiv.appendChild(this.divCreateNewFingerprint);
+
     this.divback.onclick = function() {
       createNewFingerprint('fpBack');
     };
+
     this.divmale.onclick = function() {
       createNewFingerprint('chooseMale');
     };
+
     this.divfemale.onclick = function() {
       createNewFingerprint('chooseFemale');
     };
+
     this.divdone.onclick = function() {
       createNewFingerprint('addUser');
     };

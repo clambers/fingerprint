@@ -29,12 +29,45 @@ static XW_Extension extension = 0;
 static const XW_CoreInterface *core = 0;
 static const XW_MessagingInterface *messaging = 0;
 
+struct fp_dscv_dev **discovered_devs = NULL;
+struct fp_dev *dev = NULL;
+
 static void instance_created(XW_Instance instance) {
+  int res;
+  struct fp_dscv_dev *ddev = NULL;
+  struct fp_driver *drv = NULL;
+
   SLOGI("creating instance");
+
+  res = fp_init();
+  if (res < 0) {
+    SLOGE("libfprint initialization failed");
+  }
+
+  discovered_devs = fp_discover_devs();
+  if (!discovered_devs) {
+    SLOGE("device discovery failed");
+  }
+
+  ddev = discovered_devs[0];
+  if (!ddev) {
+    SLOGE("no devices detected");
+  }
+
+  drv = fp_dscv_dev_get_driver(ddev);
+  SLOGI("found device - %s", fp_driver_get_full_name(drv));
+
+  dev = fp_dev_open(ddev);
+  if (!dev) {
+    SLOGE("could not open device");
+  }
 }
 
 static void instance_destroyed(XW_Instance instance) {
   SLOGI("destroying instance");
+
+  fp_dev_close(dev);
+  fp_exit();
 }
 
 static void handle_message(XW_Instance instance, const char *msg) {
