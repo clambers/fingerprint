@@ -29,13 +29,22 @@ AT_DATA([crosswalk.js],
     postMessage: function(msg) {
       var json = JSON.parse(msg);
       var resMsg = { id: json.id };
+      var cb;
 
       if (json.cmd === 'scan-finger') {
         resMsg.length = 1;
         resMsg['0'] = null;
-        var cb = this.listener.bind(null, JSON.stringify(resMsg));
-        setTimeout(cb, 0);
+      } else if (json.cmd === 'verify-finger') {
+        resMsg.length = 2;
+        resMsg['0'] = null;
+        resMsg['1'] = true;
+      } else if (json.cmd === 'delete-finger') {
+        resMsg.length = 1;
+        resMsg['0'] = null;
       }
+
+      cb = this.listener.bind(null, JSON.stringify(resMsg));
+      setTimeout(cb, 0);
     }
   };
 
