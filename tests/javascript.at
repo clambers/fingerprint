@@ -52,7 +52,7 @@ describe(']AT_PACKAGE_TARNAME[', function() {
   before(function() {
     chai.should();
     inject.stub();
-    fingerprint = require(]JSPATH[);
+    fingerprint = require(process.env.jspath);
   });
 
   describe('scanFinger()', function() {
@@ -66,5 +66,5 @@ describe(']AT_PACKAGE_TARNAME[', function() {
 });
 ]])
 AT_CHECK([npm install], [0], [ignore], [ignore])
-AT_CHECK([npm test], [0], [ignore], [ignore])
+AT_CHECK([jspath="$JSPATH" npm test], [0], [ignore], [ignore])
 AT_CLEANUP
