@@ -17,7 +17,7 @@ AT_DATA([package.json],
   }
 }
 ]])
-AT_DATA([inject.js],
+AT_DATA([crosswalk.js],
 [[exports.stub = function() {
   extension = {
     listener: null,
@@ -45,13 +45,13 @@ AT_DATA([inject.js],
 AT_CHECK([mkdir -p test], [0], [ignore], [ignore])
 AT_DATA([[test/test.js]],
 [[var chai = require('chai');
-var inject = require('../inject');
+var crosswalk = require('../crosswalk');
 var fingerprint;
 
 describe(']AT_PACKAGE_TARNAME[', function() {
   before(function() {
     chai.should();
-    inject.stub();
+    crosswalk.stub();
     fingerprint = require(process.env.jspath);
   });
 
