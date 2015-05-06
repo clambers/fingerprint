@@ -1,6 +1,6 @@
-AT_BANNER([JavaScript API.])
+AT_BANNER([JavaScript.])
 
-AT_SETUP([Mocha script])
+AT_SETUP([Mocha])
 AT_DATA([package.json],
 [[{
   "name": "]AT_PACKAGE_TARNAME[",
@@ -65,6 +65,6 @@ describe(']AT_PACKAGE_TARNAME[', function() {
   });
 });
 ]])
-AT_CHECK([npm install], [0], [ignore], [ignore])
+AT_CHECK([cp -r $MODPATH .], [0], [ignore], [ignore])
 AT_CHECK([jspath=$JSPATH npm test], [0], [ignore], [ignore])
 AT_CLEANUP

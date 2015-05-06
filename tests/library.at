@@ -1,6 +1,6 @@
-AT_BANNER([Native code.])
+AT_BANNER([Native.])
 
-AT_SETUP([Basic])
+AT_SETUP([Dummy])
 AT_TEST([basic], AT_TEST_MAIN([
   return EXIT_SUCCESS;
 ]))

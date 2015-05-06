@@ -4,4 +4,5 @@ CPPFLAGS="-I$abs_top_builddir -I$abs_top_srcdir/lib"
 CFLAGS=
 LDFLAGS=
 LIBS="$abs_top_builddir/lib/libfingerprint.la"
+MODPATH="$abs_top_srcdir/tests/node_modules"
 JSPATH="$abs_top_srcdir/lib/fingerprint.js"

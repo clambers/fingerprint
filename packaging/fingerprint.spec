@@ -1,9 +1,11 @@
+%global __debug_install_post %{nil}
+%global debug_package %{nil}
+
 %define hash BMQA0bTQCY
 %define extdir %{_libdir}/tizen-extensions-crosswalk/
 %define pcdir %{_datadir}/pkgconfig/
 %define wgtdir %{_datadir}/wgt/
 %define ruledir %{_libdir}/udev/rules.d/
-%define debug_package %{nil}
 
 Name:           fingerprint
 Summary:        JLR Fingerprint web application
