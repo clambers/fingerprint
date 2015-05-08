@@ -1,14 +1,8 @@
 #!/bin/sh
 
-while getopts "h" flag; do
-  case "$flag" in
-    h) echo "Usage: $(basename $0) NAME VERSION HASH";;
-  esac
-done
-
-NAME=${@:$OPTIND:1}
-VERSION=${@:$OPTIND+1:1}
-ID_HASH=${@:$OPTIND+2:1}
+NAME=fingerprint
+VERSION=0.0.1
+HASH=BMQA0bTQCY
 
 AUTORECONF=`which autoreconf`
 COMMONDIR=/opt/usr/apps/common-apps
@@ -27,15 +21,21 @@ mkdir -p m4
 cp -r $COMMONDIR src/DNA_common
 EOF=EOF_$RANDOM
 echo "$(cat <<$EOF
-# AX_IMPORT
-# ---------
+# AX_IMPORT_PACKAGE_INFO
+# ----------------------
 # Import package information from an outside source.
 AC_DEFUN([AX_IMPORT],
 [m4_define([AX_PACKAGE_NAME], [${NAME^}])
 m4_define([AX_PACKAGE_VERSION], [$VERSION])
-m4_define([AX_PACKAGE_HASH], [$ID_HASH])
+m4_define([AX_PACKAGE_HASH], [$HASH])
 ])
 $EOF
 )" > m4/package.m4
 
-$AUTORECONF -i
+EOF=EOF_$RANDOM
+eval echo "\"$(cat <<$EOF
+$(<packaging/fingerprint.spec.in)
+$EOF
+)\""
+
+$AUTORECONF -if

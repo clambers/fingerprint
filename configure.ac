@@ -1,6 +1,6 @@
 AC_PREREQ([2.69])
 
-AX_IMPORT
+AX_IMPORT_PACKAGE_INFO
 
 AC_INIT(AX_PACKAGE_NAME, AX_PACKAGE_VERSION,
 [https://github.com/PDXostc/fingerprint/issues], [],

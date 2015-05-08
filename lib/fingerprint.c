@@ -37,7 +37,7 @@ static void instance_created(XW_Instance instance) {
   struct fp_dscv_dev *ddev = NULL;
   struct fp_driver *drv = NULL;
 
-  SLOGI("creating instance");
+  SLOGD("creating instance");
 
   res = fp_init();
   if (res < 0) {
@@ -55,7 +55,7 @@ static void instance_created(XW_Instance instance) {
   }
 
   drv = fp_dscv_dev_get_driver(ddev);
-  SLOGI("found device - %s", fp_driver_get_full_name(drv));
+  SLOGD("found device - %s", fp_driver_get_full_name(drv));
 
   dev = fp_dev_open(ddev);
   if (!dev) {
@@ -64,7 +64,7 @@ static void instance_created(XW_Instance instance) {
 }
 
 static void instance_destroyed(XW_Instance instance) {
-  SLOGI("destroying instance");
+  SLOGD("destroying instance");
 
   fp_dev_close(dev);
   fp_exit();
@@ -75,8 +75,11 @@ static void handle_message(XW_Instance instance, const char *msg) {
   json_error_t err;
   const char *cmd_value;
   char *root_value, *res_value;
+  struct fp_img *img;
+  struct fp_print_data *print;
+  int fp_res;
 
-  SLOGI("received message");
+  SLOGD("received message");
 
   res = json_object();
 
@@ -87,7 +90,7 @@ static void handle_message(XW_Instance instance, const char *msg) {
   }
 
   root_value = json_dumps(root, 0);
-  SLOGI("parsed input: %s", root_value);
+  SLOGD("parsed input: %s", root_value);
 
   id = json_object_get(root, "id");
   if (!json_is_integer(id)) {
@@ -106,16 +109,42 @@ static void handle_message(XW_Instance instance, const char *msg) {
   cmd_value = json_string_value(cmd);
 
   if (strcmp(cmd_value, "scan-finger") == 0) {
-    SLOGI("scanning finger");
+    SLOGD("scanning finger");
     json_object_set_new(res, "length", json_integer(1));
     json_object_set_new(res, "0", json_null());
+    img = NULL;
+    print = NULL;
+    do {
+      fp_res = fp_enroll_finger_img(dev, &print, &img);
+      if (img) {
+        fp_img_save_to_file(img, "enrolled.pgm");
+        SLOGD("wrote scan to file");
+        fp_img_free(img);
+      }
+      if (fp_res < 0) {
+        SLOGE("enroll failed with error %d", fp_res);
+      }
+      switch (fp_res) {
+      case FP_ENROLL_COMPLETE:
+        SLOGD("enroll complete");
+        break;
+
+      case FP_ENROLL_PASS:
+        SLOGD("stage passed");
+        break;
+
+      default:
+        SLOGE("enrolling failed");
+        json_object_set_new(res, "0", json_string("enroll failed"));
+      }
+    } while (fp_res != FP_ENROLL_COMPLETE);
   } else if (strcmp(cmd_value, "verify-finger") == 0) {
-    SLOGI("verifying finger");
+    SLOGD("verifying finger");
     json_object_set_new(res, "length", json_integer(2));
     json_object_set_new(res, "0", json_null());
     json_object_set_new(res, "1", json_boolean(1));
   } else if (strcmp(cmd_value, "delete-finger") == 0) {
-    SLOGI("deleting finger");
+    SLOGD("deleting finger");
     json_object_set_new(res, "length", json_integer(1));
     json_object_set_new(res, "0", json_null());
   } else {
@@ -128,17 +157,17 @@ static void handle_message(XW_Instance instance, const char *msg) {
  done:
   json_decref(root);
   res_value = json_dumps(res, 0);
-  SLOGI("posting response: %s", res_value);
+  SLOGD("posting response: %s", res_value);
   messaging->PostMessage(instance, res_value);
   json_decref(res);
 }
 
 static void shutdown(XW_Extension ext) {
-  SLOGI("shutting down");
+  SLOGD("shutting down");
 }
 
 int32_t XW_Initialize(XW_Extension ext, XW_GetInterface get_interface) {
-  SLOGI("initializing");
+  SLOGD("initializing");
 
   extension = ext;
 
@@ -151,7 +180,7 @@ int32_t XW_Initialize(XW_Extension ext, XW_GetInterface get_interface) {
   messaging = get_interface(XW_MESSAGING_INTERFACE);
   messaging->Register(ext, handle_message);
 
-  SLOGI("initialization complete");
+  SLOGD("initialization complete");
 
   return XW_OK;
 }
