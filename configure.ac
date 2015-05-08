@@ -22,12 +22,13 @@ AM_PROG_CC_C_O
 PKG_CHECK_MODULES([dlog], [dlog])
 PKG_CHECK_MODULES([jansson], [jansson])
 PKG_CHECK_MODULES([libfprint], [libfprint])
+AX_PROG_TAR
 AC_CHECK_PROGS([XML_LINT], [xmllint])
 AC_CHECK_PROGS([ZIP], [zip])
 
 AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile fingerprint.pc lib/Makefile src/Makefile
-tests/Makefile src/fingerprint.xml tests/package.m4 tests/atlocal])
+src/fingerprint.xml tests/Makefile tests/package.m4 tests/atlocal])
 
 AC_OUTPUT

@@ -1,5 +1,6 @@
 BUILT_SOURCES = fingerprint.h
 JS2C = $(top_srcdir)/build-aux/js2c.sh
+EXTRA_DIST = 40-libfprint0.rules
 DISTCLEANFILES = fingerprint.h
 
 extdir = $(libdir)/tizen-extensions-crosswalk
