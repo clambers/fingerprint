@@ -19,6 +19,6 @@ fi
 
 exec > $OUTPUT
 
-echo "static const char *kSource_${NAME//-/_} = "
+echo "static const char *kSource_fingerprint_api = "
 tr -d '\r' < "$INPUT" | sed 's:["\\]:\\&:g;s:.*:    "&\\n":'
 echo ";"

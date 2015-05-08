@@ -173,7 +173,7 @@ int32_t XW_Initialize(XW_Extension ext, XW_GetInterface get_interface) {
 
   core = get_interface(XW_CORE_INTERFACE);
   core->SetExtensionName(ext, LOG_TAG);
-  core->SetJavaScriptAPI(ext, kSource_fingerprint);
+  core->SetJavaScriptAPI(ext, kSource_fingerprint_api);
   core->RegisterInstanceCallbacks(ext, instance_created, instance_destroyed);
   core->RegisterShutdownCallback(ext, shutdown);
 

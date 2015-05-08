@@ -5,8 +5,10 @@ EXTRA_DIST = \
 	$(srcdir)/README.md \
 	$(srcdir)/NEWS.md \
 	$(srcdir)/autogen.sh \
-	$(srcdir)/configure.ac.in \
-	$(srcdir)/build-aux/js2c.sh
+	$(srcdir)/build-aux/js2c.sh \
+	$(srcdir)/packaging/fingerprint.spec.in \
+	$(srcdir)/packaging/fingerprint.spec \
+	$(srcdir)/m4/package.m4
 SUBDIRS = lib src tests
 
 pcdir = $(datadir)/pkgconfig
